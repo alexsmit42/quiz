@@ -1,0 +1,46 @@
+[
+  {
+    "title": "Ранжирование",
+    "question": "string",
+    "list": [
+      {
+        "caption": "string",
+        "value": "string"
+      }
+    ],
+    "options": {
+      "note": "string",
+      "ordered": ["alphabet", "numeric"]
+    }
+  },
+  {
+    "title": "Выбор ответа",
+    "description": "string",
+    "question-list": [
+      {
+        "question": "string",
+        "type-answer": ["image", "string"],        "answers": [
+          {
+            "caption": "string",
+            "is_true": "boolean"
+          }
+        ]
+      }
+    ],
+    "options": {
+      "type-answers": ["random", "manual"],
+    }
+  },
+  {
+    "title": "Двусторонний выбор",
+    "description": "string",
+    "list": [
+      [
+        {
+          "value": "string",
+          "type": ["image", "string"]
+        }
+      ]
+    ]
+  }
+]
