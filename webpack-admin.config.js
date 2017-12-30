@@ -29,12 +29,12 @@ module.exports = {
             }
         ]
     },
-    plugins: [
-        new webpack.ProvidePlugin({
-            $: 'jquery',
-            jQuery: 'jquery'
-        }),
-    ],
+    // plugins: [
+    //     new webpack.ProvidePlugin({
+    //         $: 'jquery',
+    //         jQuery: 'jquery'
+    //     }),
+    // ],
     devServer: {
         port: 5000,
         host: 'localhost'

@@ -1,7 +1,10 @@
+global.__base = __dirname + '/';
+
 let express = require('express'),
     app = express(),
     config = require('./config'),
     middleware = require('./middleware')(app, express);
+
 
 app.get('/', function(req, res){
     res.render('index', {

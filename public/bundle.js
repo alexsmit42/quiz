@@ -8871,7 +8871,7 @@ if (Component.esModule && Object.keys(Component.esModule).some(function (key) { 
 
 /* hot reload */
 if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
   hotAPI.install(require("vue"), false)
   if (!hotAPI.compatible) return
   module.hot.accept()
@@ -9025,7 +9025,7 @@ if (Component.esModule && Object.keys(Component.esModule).some(function (key) { 
 
 /* hot reload */
 if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
   hotAPI.install(require("vue"), false)
   if (!hotAPI.compatible) return
   module.hot.accept()
@@ -9094,13 +9094,12 @@ exports.push([module.i, "\nul li {\n  color: darkgreen;\n}\n", ""]);
 //
 
 
-    /* harmony default export */ __webpack_exports__["a"] = ({
-        props: ['names'],
-        created: () => {
-                console.log(this.names);
-//            this.names = this.names.map(name => name.toUpperCase())
-        }
-    });
+/* harmony default export */ __webpack_exports__["a"] = ({
+    props: ['names'],
+    created: function() {
+       this.upperNames = this.names.map(name => name.toUpperCase())
+    }
+});
 
 
 /***/ }),
@@ -9114,7 +9113,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "ul",
-    _vm._l(_vm.names, function(name) {
+    _vm._l(_vm.upperNames, function(name) {
       return _c("li", [_vm._v(_vm._s(name))])
     })
   )
@@ -9126,7 +9125,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-54398f11", esExports)
+    require("vue-loader/node_modules/vue-hot-reload-api")      .rerender("data-v-54398f11", esExports)
   }
 }
 
@@ -9153,7 +9152,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-f924e9c8", esExports)
+    require("vue-loader/node_modules/vue-hot-reload-api")      .rerender("data-v-f924e9c8", esExports)
   }
 }
 

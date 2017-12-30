@@ -1,26 +1,24 @@
 <template lang="pug">
     div
-        component(:is="currentComponent", @clicked="onClickChild")
+        component(:is="rubric")
 </template>
 
 <script>
-    import rubricPage from './RubricPage.vue';
-    import addTest from './AddTest.vue';
+    import indexPage from './IndexPage.vue';
+    import rankedRubric from './ranked_test/RankedRubric.vue';
 
     export default {
         name: "admin-app",
-        data: function() {
-          return {
-              currentComponent: 'rubric'
-          }
+        data() {
+            return {}
         },
         components: {
-            rubric: rubricPage,
-            add: addTest
+            index: indexPage,
+            ranked: rankedRubric,
         },
-        methods: {
-            'onClickChild': function(value) {
-                this.currentComponent = value || 'rubric';
+        computed: {
+            rubric()  {
+                return this.$store.state.rubric
             }
         }
     }

@@ -3,7 +3,12 @@ module.exports = function (app, express) {
         path = require('path'),
         session = require('express-session'),
         cookieParser = require('cookie-parser'),
+        bodyParser = require('body-parser'),
+        helmet = require('helmet'),
         i18n = require('i18n-2');
+
+    /* Helmet */
+    app.use(helmet());
 
     /**
      * Page Rendering
@@ -53,6 +58,12 @@ module.exports = function (app, express) {
         req.i18n.setLocaleFromCookie();
         next();
     });
+
+    /***
+     * JSON
+     */
+    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.json());
 
     /**
      * Routing

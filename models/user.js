@@ -4,6 +4,7 @@ var crypto = require('crypto'),
     async = require('async');
 
 var User = new Schema({
+    _id: Schema.Types.ObjectId,
     username: {
         type: String,
         unique: true,

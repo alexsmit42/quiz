@@ -14,7 +14,6 @@
 
   nav {
     grid-area: nav;
-    background: lightcoral;
   }
 
   main {
@@ -28,9 +27,17 @@
   }
 }
 
+/*
+  Forms
+*/
+
+.error-field {
+  border-color: #ff0000 !important;
+}
+
 /**
 *   Bootstrap
- */
+*/
 .btn {
   cursor: pointer;
 }
