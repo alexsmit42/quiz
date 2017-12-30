@@ -22,6 +22,10 @@
                     {
                         name: 'ranked',
                         caption: 'Ранжирование'
+                    },
+                    {
+                        name: 'choose',
+                        caption: 'Выбор ответа'
                     }
                 ]
             }

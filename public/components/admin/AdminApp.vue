@@ -1,24 +1,27 @@
 <template lang="pug">
     div
-        component(:is="rubric")
+        component(:is="rubric", action="start")
 </template>
 
 <script>
     import indexPage from './IndexPage.vue';
-    import rankedRubric from './ranked_test/RankedRubric.vue';
+    import rankedPage from './RubricPage.vue';
+    import choosePage from './RubricPage.vue';
 
     export default {
         name: "admin-app",
         data() {
-            return {}
+            return {
+            }
         },
         components: {
             index: indexPage,
-            ranked: rankedRubric,
+            ranked: rankedPage,
+            choose: choosePage
         },
         computed: {
             rubric()  {
-                return this.$store.state.rubric
+                return this.$store.state.rubric;
             }
         }
     }

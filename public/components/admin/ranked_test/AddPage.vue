@@ -123,6 +123,7 @@
             },
             setData(id) {
                 if (!id) {
+                    this.setDefault();
                     return false;
                 }
                 let component = this;
@@ -140,11 +141,21 @@
                         component.lang = test.lang;
                         component.question = test.options.question;
                         component.note = test.options.note;
+                        component.order = test.options.order;
                         component.answers = test.options.answers;
                     })
                     .catch(function(error) {
                         console.log(error);
                     });
+            },
+            setDefault() {
+                this.title = '';
+                this.question = '';
+                this.note = '';
+                this.type = this.$store.state.rubric;
+                this.lang = 'ru';
+                this.order = 'numeric';
+                this.answers = [];
             }
         }
     }

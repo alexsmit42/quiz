@@ -1,8 +1,8 @@
 <template lang="pug">
     .start-page
-        h2 Ранжирование
+        h2 {{rubricInfo.title}}
         .menu
-        .info В тестах на ранжирование необходимо расположить элементы по порядку
+        .description {{rubricInfo.description}}
         .add
             button(class="btn btn-outline-primary", id="add-test", v-on:click="toAdd(0)") Добавить тест
         .tests-list
@@ -15,6 +15,17 @@
 <script>
     import axios from 'axios';
 
+    const RUBRICS = {
+        ranked: {
+            title: 'Ранжирование',
+            description: 'В тестах на ранжирование необходимо расположить элементы по порядку'
+        },
+        choose: {
+            title: 'Выбор ответа',
+            description: 'Выбрать правильный ответ из четырех вариантов'
+        }
+    };
+
     export default {
         name: "start-page",
         data() {
@@ -22,8 +33,11 @@
                 tests: []
             };
         },
-        created() {
-            this.getTests();
+        computed: {
+            rubricInfo() {
+                this.getTests();
+                return RUBRICS[this.$store.state.rubric];
+            }
         },
         methods: {
             toAdd(id = 0) {
