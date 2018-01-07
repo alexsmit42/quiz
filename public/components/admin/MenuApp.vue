@@ -33,6 +33,7 @@
         methods: {
             changeRubric(rubric) {
                 this.$store.commit('CHANGE_RUBRIC', rubric);
+                this.$store.commit('CHANGE_ACTION', 'start');
             }
         },
         computed: {

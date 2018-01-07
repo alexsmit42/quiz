@@ -4,5 +4,4 @@ package-lock.json
 node_modules
 public/bundle.js
 public/bundle-admin.js
-/public/bundle-admin.js
 bundle-admin.js

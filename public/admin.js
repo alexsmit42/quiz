@@ -15,16 +15,23 @@ Vue.use(VeeValidate, validateConf);
 Vue.use(Vuex);
 const store = new Vuex.Store({
     state: {
-        rubric: 'index'
+        rubric: 'index',
+        action: 'start'
     },
     actions: {
         changeRubric({commit}, rubric) {
             commit('CHANGE_RUBRIC', rubric)
-        }
+        },
+        changeAction({commit}, action) {
+            commit('CHANGE_ACTION', action)
+        },
     },
     mutations: {
         CHANGE_RUBRIC(state, rubric) {
             state.rubric = rubric;
+        },
+        CHANGE_ACTION(state, action) {
+            state.action = action;
         }
     },
     plugins: [createPersistedState()]

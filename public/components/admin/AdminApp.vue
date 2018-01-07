@@ -1,6 +1,6 @@
 <template lang="pug">
     div
-        component(:is="rubric", action="start")
+        component(:is="rubric", action="action")
 </template>
 
 <script>
@@ -22,6 +22,9 @@
         computed: {
             rubric()  {
                 return this.$store.state.rubric;
+            },
+            action() {
+                return this.$store.state.action;
             }
         }
     }
