@@ -26,6 +26,10 @@
                     {
                         name: 'choose',
                         caption: 'Выбор ответа'
+                    },
+                    {
+                        name: 'compare',
+                        caption: 'Соответсвие'
                     }
                 ]
             }

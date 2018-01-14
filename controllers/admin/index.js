@@ -14,18 +14,12 @@ module.exports = {
 
         User.findOne({username: 'admin'})
             .then(user => {
-                let options = {
-                    question: params.question,
-                    note: params.note,
-                    order: params.order,
-                    answers: params.answers
-                };
 
                 let testData = {
                     title: params.title,
                     type: params.type,
                     lang: params.lang,
-                    options: options,
+                    options: params.options,
                     user: user._id
                 };
 

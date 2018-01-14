@@ -16,146 +16,90 @@
                     label Единица измерения
                     input(type="text", v-model="note", name="note", maxlength="10", v-validate="'required'", :class="{'error-field': errors.has('note')}")
 
-            .errors
-                ul
-                    li(v-for="errMsg in errorMessages") {{ errMsg }}
+            errors-list(:errorsList="errorMessages")
 
             .add-answer
                 button(@click="addAnswer") Добавить ответ
             .answers-list.container-fluid
                 answer-item(v-for="(answer, index) in answers", :key="index", :answer="answer", :note="note", @remove="removeAnswer(answer)")
+
             .save
                 button(@click="validate") Сохранить тест
 </template>
 
 <script>
-    import axios from 'axios';
-
+    import errorsList from '../common/ErrorsList.vue';
     import answerItem from './AnswerItem.vue';
 
-    const MIN_ANSWERS = 2;
+    import testMixin from '../mixins/testsMixin';
+
+    const MIN_ANSWERS = 3;
+    const TEST_TYPE = 'ranked';
+    const DEFAULT_ANSWER = {
+        value: '',
+        caption: ''
+    };
 
     export default {
         name: "add-page",
         props: ['id'],
         components: {
-            answerItem
+            errorsList, answerItem
         },
+        mixins: [testMixin],
         data() {
-            return {
-                testID: 0,
-                title: '',
-                question: '',
-                note: '',
-                type: 'ranked',
-                lang: 'ru',
-                order: 'numeric',
-                answers: [],
-                errorMessages: []
-            }
+            return this.setDefault();
         },
         created() {
-            this.testID = this.id;
-
-            this.setData(this.testID);
+            if (this.id) {
+                this.setData(this.id);
+            }
+        },
+        computed: {
+            saveData() {
+                return {
+                    id: this.id,
+                    title: this.title,
+                    type: TEST_TYPE,
+                    lang: 'ru',
+                    options: {
+                        question: this.question,
+                        note: this.note,
+                        order: 'numeric',
+                        answers: this.answers,
+                    }
+                };
+            }
         },
         methods: {
-            toStart: function() {
-                this.$emit('clicked', 'start');
-            },
             addAnswer() {
-                let answer = {
-                    caption: '',
-                    value: ''
-                };
-
-                this.answers.push(answer);
+                this.answers.push(Object.assign({}, DEFAULT_ANSWER));
             },
             removeAnswer(answer) {
+                if (this.answers.length <= MIN_ANSWERS) {
+                    return;
+                }
+
                 this.answers.splice(this.answers.indexOf(answer), 1);
             },
-            validate() {
-                this.errorMessages = [];
-
-                let promises = this.$children.map(child => child.$validator.validateAll());
-                promises.push(this.$validator.validateAll());
-
-                Promise.all(promises)
-                    .then(
-                        results => {
-                            if (results.every(valid => valid)) {
-                                if (this.answers.length <= MIN_ANSWERS) {
-                                    this.errorMessages.push('Минимальное количество ответов: ' + MIN_ANSWERS);
-                                    return;
-                                }
-
-                                // сохранение формы
-                                this.saveTest();
-                            } else {
-                                // ошибка
-                                this.errorMessages.push('Заполните все поля');
-                            }
-                        }
-                    );
-            },
-            saveTest() {
-                axios.post('/admin/test/save', this.getData())
-                    .then(function(res) {
-                        console.log(res);
-                    })
-                    .catch(function(error) {
-                        console.log(error);
-                    });
-            },
-            getData() {
-                let data = {
-                    id: this.testID,
-                    title: this.title,
-                    type: this.type,
-                    lang: this.lang,
-                    question: this.question,
-                    note: this.note,
-                    order: this.order,
-                    answers: this.answers
-                };
-
-                return data;
-            },
-            setData(id) {
-                if (!id) {
-                    this.setDefault();
-                    return false;
-                }
-                let component = this;
-
-                axios.post('/admin/test', {id: this.testID})
-                    .then(function(res) {
-                        if (res.data.error) {
-                            // TODO: throw error
-                            return false;
-                        }
-
-                        let test = res.data.test;
-                        component.title = test.title;
-                        component.type = test.type;
-                        component.lang = test.lang;
-                        component.question = test.options.question;
-                        component.note = test.options.note;
-                        component.order = test.options.order;
-                        component.answers = test.options.answers;
-                    })
-                    .catch(function(error) {
-                        console.log(error);
-                    });
-            },
             setDefault() {
-                this.title = '';
-                this.question = '';
-                this.note = '';
-                this.type = this.$store.state.rubric;
-                this.lang = 'ru';
-                this.order = 'numeric';
-                this.answers = [];
+                let answers = [];
+
+                for(let i = 0; i < MIN_ANSWERS; ++i) {
+                    answers.push(Object.assign({}, DEFAULT_ANSWER));
+                }
+
+                return {
+                    testID: 0,
+                    title: '',
+                    question: '',
+                    note: '',
+                    type: TEST_TYPE,
+                    lang: 'ru',
+                    order: 'numeric',
+                    answers: answers,
+                    errorMessages: []
+                }
             }
         }
     }

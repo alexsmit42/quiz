@@ -7,6 +7,7 @@
     import indexPage from './IndexPage.vue';
     import rankedPage from './RubricPage.vue';
     import choosePage from './RubricPage.vue';
+    import comparePage from './RubricPage.vue';
 
     export default {
         name: "admin-app",
@@ -14,10 +15,12 @@
             return {
             }
         },
+        /* TODO: минифицировать количество определений рубрик в компонентах (перенести в vuex) */
         components: {
             index: indexPage,
             ranked: rankedPage,
-            choose: choosePage
+            choose: choosePage,
+            compare: comparePage
         },
         computed: {
             rubric()  {
