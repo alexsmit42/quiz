@@ -1,8 +1,8 @@
 <template lang="pug">
-    .add-test
+    .add-quiz
         .menu
             a(href="#", class="to-rubric", v-on:click="toStart") Назад
-        .ranked-test
+        .ranked-quiz
             h3 Добавить тест на ранжирование
             .description Вопрос на расположение элементов по порядку
             .title
@@ -31,10 +31,10 @@
     import errorsList from '../common/ErrorsList.vue';
     import answerItem from './AnswerItem.vue';
 
-    import testMixin from '../mixins/testsMixin';
+    import quizMixin from '../mixins/quizzesMixin';
 
     const MIN_ANSWERS = 3;
-    const TEST_TYPE = 'ranked';
+    const QUIZ_TYPE = 'ranked';
     const DEFAULT_ANSWER = {
         value: '',
         caption: ''
@@ -46,7 +46,7 @@
         components: {
             errorsList, answerItem
         },
-        mixins: [testMixin],
+        mixins: [quizMixin],
         data() {
             return this.setDefault();
         },
@@ -60,7 +60,7 @@
                 return {
                     id: this.id,
                     title: this.title,
-                    type: TEST_TYPE,
+                    type: QUIZ_TYPE,
                     lang: 'ru',
                     options: {
                         question: this.question,
@@ -90,11 +90,11 @@
                 }
 
                 return {
-                    testID: 0,
+                    quizID: 0,
                     title: '',
                     question: '',
                     note: '',
-                    type: TEST_TYPE,
+                    type: QUIZ_TYPE,
                     lang: 'ru',
                     order: 'numeric',
                     answers: answers,

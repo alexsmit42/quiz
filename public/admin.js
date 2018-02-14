@@ -1,7 +1,7 @@
 import Vue from 'vue';
 
 import Vuex from 'vuex';
-import createPersistedState from 'vuex-persistedstate'
+import createPersistedState from 'vuex-persistedstate';
 import VeeValidate from 'vee-validate';
 
 import menuApp from './components/admin/MenuApp.vue';
@@ -16,7 +16,26 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
     state: {
         rubric: 'index',
-        action: 'start'
+        action: 'start',
+        rubrics: {
+            ranked: {
+                title: 'Ранжирование',
+                description: 'В тестах на ранжирование необходимо расположить элементы по порядку'
+            },
+            choose: {
+                title: 'Выбор ответа',
+                description: 'Выбрать правильный ответ из четырех вариантов'
+            },
+            compare: {
+                title: 'Соответствие',
+                description: 'Тест на выбор соответствующих друг друг вариантов'
+            }
+        }
+    },
+    getters: {
+        currentRubricInfo: state => {
+            return state.rubrics[state.rubric];
+        }
     },
     actions: {
         changeRubric({commit}, rubric) {

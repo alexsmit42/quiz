@@ -1,5 +1,5 @@
 let mongoose = require(__base + '/utils/mongoose'),
-    {User, Test} = require(__base + '/models/models');
+    {User, Quiz} = require(__base + '/models/models');
 //     // log = require('./utils/log')(null, module),
 //     config = require('./config');
 
@@ -9,13 +9,13 @@ module.exports = {
             i18n: req.i18n
         });
     },
-    saveTest: function(req, res) {
+    saveQuiz: function(req, res) {
         let params = req.body;
 
         User.findOne({username: 'admin'})
             .then(user => {
 
-                let testData = {
+                let quizData = {
                     title: params.title,
                     type: params.type,
                     lang: params.lang,
@@ -25,17 +25,17 @@ module.exports = {
 
                 // TODO: переделать одной функцией
                 if (params.id) {
-                    return Test.findOneAndUpdate({_id: params.id}, testData, { upsert: true, setDefaultsOnInsert: true });
+                    return Quiz.findOneAndUpdate({_id: params.id}, quizData, { upsert: true, setDefaultsOnInsert: true });
                 } else {
-                    testData._id = new mongoose.Types.ObjectId();
-                    let newTest = new Test(testData);
-                    return newTest.save();
+                    quizData._id = new mongoose.Types.ObjectId();
+                    let newQuiz = new Quiz(quizData);
+                    return newQuiz.save();
                 }
             })
-            .then(test => {
+            .then(quiz => {
                 res.json({
                     error: false,
-                    test: test.get('urlTitle')
+                    quiz: quiz.get('urlTitle')
                 });
             })
             .catch(err => {
@@ -45,14 +45,14 @@ module.exports = {
                 });
             });
     },
-    deleteTest: function(req, res) {
+    deleteQuiz: function(req, res) {
         let id = req.body.id || false;
 
         if (!id) {
             res.json({error: true});
         }
 
-        Test.deleteOne({_id: id})
+        Quiz.deleteOne({_id: id})
             .then(result => {
                 res.json({error: false});
             })
@@ -63,18 +63,18 @@ module.exports = {
                 });
             });
     },
-    getTests: function(req, res) {
+    getQuizzes: function(req, res) {
         let type = req.body.type || false;
 
         if (!type) {
             res.json({error: true});
         }
 
-        Test.find({type: type}).
-            then(tests => {
+        Quiz.find({type: type}).
+            then(quizzes => {
                 res.json({
                     error: false,
-                    tests: tests
+                    quizzes: quizzes
                 });
             }).
             catch(err => {
@@ -84,18 +84,18 @@ module.exports = {
                 })
             });
     },
-    getTest: function(req, res) {
+    getQuiz: function(req, res) {
         let id = req.body.id || false;
 
         if (!id) {
             res.json({error: true});
         }
 
-        Test.findOne({_id: id})
-            .then(test => {
+        Quiz.findOne({_id: id})
+            .then(quiz => {
                 res.json({
                     error: false,
-                    test: test
+                    quiz: quiz
                 });
             }).
             catch(err => {

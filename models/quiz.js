@@ -4,7 +4,7 @@ let mongoose = require('../utils/mongoose'),
 
 require('transliteration');
 
-let Test = new Schema({
+let Quiz = new Schema({
     _id: Schema.Types.ObjectId,
     title: String,
     type: String,
@@ -25,4 +25,4 @@ let Test = new Schema({
 //     this.url = utils.getTranslit(this.title);
 // });
 
-module.exports = mongoose.model('Test', Test);
+module.exports = mongoose.model('Quiz', Quiz);

@@ -1,38 +1,21 @@
 <template lang="pug">
     .menu
         div.list-group
+            a.list-group-item(href="#", @click="changeRubric('index')", :class="{ active: currentRubric == 'index' }") Главная страница
+
             a.list-group-item(
                 href="#",
-                v-for="rubric in rubrics",
-                @click="changeRubric(rubric.name)",
-                :class="{ active: rubric.name == currentRubric }"
-            ) {{rubric.caption}}
+                v-for="(rubric, key) in rubrics",
+                @click="changeRubric(key)",
+                :class="{ active: key == currentRubric }"
+            ) {{rubric.title}}
 </template>
 
 <script>
     export default {
         name: "menu-app",
         data() {
-            return {
-                rubrics: [
-                    {
-                        name: 'index',
-                        caption: 'Главная страница'
-                    },
-                    {
-                        name: 'ranked',
-                        caption: 'Ранжирование'
-                    },
-                    {
-                        name: 'choose',
-                        caption: 'Выбор ответа'
-                    },
-                    {
-                        name: 'compare',
-                        caption: 'Соответсвие'
-                    }
-                ]
-            }
+            return {}
         },
         methods: {
             changeRubric(rubric) {
@@ -41,6 +24,10 @@
             }
         },
         computed: {
+            rubrics() {
+                console.log(this.$store.state.rubrics);
+                return this.$store.state.rubrics;
+            },
             currentRubric() {
                 return this.$store.state.rubric;
             }

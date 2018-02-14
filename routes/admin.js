@@ -3,9 +3,9 @@ let express = require('express'),
     admin = require('../controllers/admin');
 
 adminRouter.get('/', admin.home);
-adminRouter.post('/test/save', admin.saveTest);
-adminRouter.post('/test/delete', admin.deleteTest);
-adminRouter.post('/tests', admin.getTests);
-adminRouter.post('/test', admin.getTest);
+adminRouter.post('/quiz/save', admin.saveQuiz);
+adminRouter.post('/quiz/delete', admin.deleteQuiz);
+adminRouter.post('/quizzes', admin.getQuizzes);
+adminRouter.post('/quiz', admin.getQuiz);
 
 module.exports =  adminRouter;

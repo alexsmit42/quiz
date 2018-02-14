@@ -1,10 +1,10 @@
 <template lang="pug">
     .container
-        test-list(v-bind:names="names")
+        quiz-list(v-bind:names="names")
 </template>
 
 <script>
-    import testList from './components/TestList.vue';
+    import quizList from './components/QuizList.vue';
 
     export default{
         data () {
@@ -13,7 +13,7 @@
             }
         },
         components: {
-            'test-list': testList
+            'quiz-list': quizList
         }
     }
 </script>

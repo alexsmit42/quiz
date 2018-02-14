@@ -4,69 +4,54 @@
         .menu
         .description {{rubricInfo.description}}
         .add
-            button(class="btn btn-outline-primary", id="add-test", v-on:click="toAdd(0)") Добавить тест
-        .tests-list
-            .test(v-for="test, index in tests")
-                a(href="#", v-on:click="toAdd(test._id)") {{ test.title }}
+            button(class="btn btn-outline-primary", id="add-quiz", v-on:click="toAdd(0)") Добавить тест
+        .quizzes-list
+            .quiz(v-for="quiz, index in quizzes")
+                a(href="#", v-on:click="toAdd(quiz._id)") {{ quiz.title }}
                 |
-                a(href="#", @click="deleteTest(test._id, index)") [Удалить]
+                a(href="#", @click="deleteQuiz(quiz._id, index)") [Удалить]
 </template>
 
 <script>
     import axios from 'axios';
 
-    const RUBRICS = {
-        ranked: {
-            title: 'Ранжирование',
-            description: 'В тестах на ранжирование необходимо расположить элементы по порядку'
-        },
-        choose: {
-            title: 'Выбор ответа',
-            description: 'Выбрать правильный ответ из четырех вариантов'
-        },
-        compare: {
-            title: 'Соответствие',
-            description: 'Тест на выбор соответствующих друг друг вариантов'
-        }
-    };
-
     export default {
         name: "start-page",
         data() {
             return {
-                tests: []
+                quizzes: []
             };
         },
         computed: {
             rubricInfo() {
-                this.getTests();
-                return RUBRICS[this.$store.state.rubric];
+                this.getQuizzes();
+                return this.$store.getters.currentRubricInfo;
             }
         },
         methods: {
             toAdd(id = 0) {
                 this.$emit('clicked', {action: 'add', id: id})
             },
-            deleteTest(id, index) {
+            deleteQuiz(id, index) {
                 let component = this;
 
-                axios.post('/admin/test/delete', {id: id})
+                axios.post('/admin/quiz/delete', {id: id})
                     .then(function(res) {
                         if (!res.data.error) {
-                            component.tests.splice(component.tests.indexOf(index), 1);
+                            component.quizzes.splice(component.quizzes.indexOf(index), 1);
                         }
                     })
                     .catch(function(error) {
                         console.log(error);
                     });
             },
-            getTests() {
+            getQuizzes() {
                 let component = this;
 
-                axios.post('/admin/tests', {type: this.$store.state.rubric})
+                axios.post('/admin/quizzes', {type: this.$store.state.rubric})
                     .then(function(res) {
                         if (!res.data.error) {
-                            component.tests = res.data.tests;
+                            component.quizzes = res.data.quizzes;
                         }
                     })
                     .catch(function(error) {
