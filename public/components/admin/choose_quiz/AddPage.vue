@@ -2,11 +2,10 @@
     .add-quiz
         .menu
             a(href="#", class="to-rubric", v-on:click="toStart") Назад
-        .choose-quiz
+        .choose-quiz.quiz-container
             h3 Тест на выборы ответов
             .title
-                label Название теста
-                input(type="text", v-model="title", name="title", maxlength="100", v-validate="'required'", :class="{'error-field': errors.has('title')}")
+                input(type="text", placeholder="Название теста", v-model="title", class="form-control", name="title", maxlength="100", v-validate="'required'", :class="{'error-field': errors.has('title')}")
 
             errors-list(:errorsList="errorMessages")
 
@@ -14,7 +13,7 @@
                 button(@click="addQuestion") Добавить вопрос
 
             .question-list.container-fluid
-                question-item(v-for="(question, index) in questions", :id="index", :question="question", @remove="removeQuestion(question)")
+                question-item(v-for="(question, index) in questions", :key="index", :id="index", :question="question", @remove="removeQuestion(question)")
 
             .add-question
                 button(@click="addQuestion") Добавить вопрос
@@ -68,7 +67,10 @@
         },
         methods: {
             addQuestion() {
-                this.questions.push(Object.assign({}, DEFAULT_QUESTION));
+                this.questions.push(Object.assign({}, {
+                    title: '',
+                    answers: ['', '', '', '']
+                }));
             },
             removeQuestion(question) {
                 if (this.questions.length <= MIN_QUESTIONS) {
@@ -81,7 +83,10 @@
                 let questions = [];
 
                 for(let i = 0; i < MIN_QUESTIONS; ++i) {
-                    questions.push(Object.assign({}, DEFAULT_QUESTION));
+                    questions.push(Object.assign({}, {
+                        title: '',
+                        answers: ['', '', '', '']
+                    }));
                 }
 
                 return {
@@ -98,5 +103,13 @@
 </script>
 
 <style scoped lang="scss">
+    $chooseWidth: 500px;
 
+    .choose-quiz {
+        .title {
+            input {
+                width: $chooseWidth;
+            }
+        }
+    }
 </style>

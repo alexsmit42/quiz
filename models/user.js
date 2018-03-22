@@ -1,5 +1,5 @@
 var crypto = require('crypto'),
-    mongoose = require('../utils/mongoose'),
+    mongoose = require(__base + '/utils/mongoose'),
     Schema = mongoose.Schema,
     async = require('async');
 

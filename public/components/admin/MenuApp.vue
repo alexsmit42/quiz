@@ -25,7 +25,6 @@
         },
         computed: {
             rubrics() {
-                console.log(this.$store.state.rubrics);
                 return this.$store.state.rubrics;
             },
             currentRubric() {

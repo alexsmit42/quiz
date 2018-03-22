@@ -2,29 +2,23 @@
     .add-quiz
         .menu
             a(href="#", class="to-rubric", v-on:click="toStart") Назад
-        .ranked-quiz
-            h3 Добавить тест на ранжирование
-            .description Вопрос на расположение элементов по порядку
+        .ranked-quiz.quiz-container
+            h3 Добавить тест на сортировку
             .title
-                label Название теста
-                input(type="text", v-model="title", name="title", maxlength="100", v-validate="'required'", :class="{'error-field': errors.has('title')}")
-            .question
-                label Введите вопрос
-                input(type="text", v-model="question", name="question", maxlength="100", v-validate="'required'", :class="{'error-field': errors.has('question')}")
+                input(type="text", class="form-control", placeholder="Вопрос", v-model="title", name="title", maxlength="100", v-validate="'required'", :class="{'error-field': errors.has('title')}")
+
             .ranked-options
                 .note
-                    label Единица измерения
-                    input(type="text", v-model="note", name="note", maxlength="10", v-validate="'required'", :class="{'error-field': errors.has('note')}")
+                    input(type="text", class="form-control", placeholder="Единица измерения" v-model="note", name="note", maxlength="10")
 
-            errors-list(:errorsList="errorMessages")
+            .answers-list.container-fluid
+                answer-item(v-for="(answer, index) in answers", :key="index", :answer="answer", :note="note", :isMinAnswers="isMinAnswers", @remove="removeAnswer(answer)")
 
             .add-answer
-                button(@click="addAnswer") Добавить ответ
-            .answers-list.container-fluid
-                answer-item(v-for="(answer, index) in answers", :key="index", :answer="answer", :note="note", @remove="removeAnswer(answer)")
+                button(@click="addAnswer", type="button", class="btn btn-outline-secondary") Добавить
 
             .save
-                button(@click="validate") Сохранить тест
+                button(@click="validate",  type="button", class="btn btn-info") Сохранить тест
 </template>
 
 <script>
@@ -56,6 +50,9 @@
             }
         },
         computed: {
+            isMinAnswers() {
+                return this.answers.length === MIN_ANSWERS;
+            },
             saveData() {
                 return {
                     id: this.id,
@@ -63,7 +60,6 @@
                     type: QUIZ_TYPE,
                     lang: 'ru',
                     options: {
-                        question: this.question,
                         note: this.note,
                         order: 'numeric',
                         answers: this.answers,
@@ -92,7 +88,6 @@
                 return {
                     quizID: 0,
                     title: '',
-                    question: '',
                     note: '',
                     type: QUIZ_TYPE,
                     lang: 'ru',
@@ -106,9 +101,40 @@
 </script>
 
 <style scoped lang="scss">
+    $rankedWidth: 500px;
+
     .note {
         input {
             width: 50px;
+        }
+    }
+
+    .ranked-quiz {
+
+        .title {
+            input {
+                width: $rankedWidth;
+            }
+        }
+
+        .ranked-options {
+            display: flex;
+            justify-content: flex-end;
+            width: $rankedWidth;
+
+            .note {
+                input {
+                    width: $rankedWidth / 2 - 20;
+                }
+            }
+        }
+
+        .add-answer {
+            margin-top: 10px;
+        }
+
+        .save {
+            margin: 20px 0;
         }
     }
 </style>

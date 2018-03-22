@@ -27,12 +27,15 @@ export default {
                 );
         },
         saveQuiz() {
+            let obj = this;
+
             axios.post('/admin/quiz/save', this.saveData)
                 .then(function(res) {
-                    console.log(res);
+                    console.log(333)
+                    obj.toStart();
                 })
                 .catch(function(error) {
-                    console.log(error);
+                    // console.log(error);
                 });
         },
         setData(id) {

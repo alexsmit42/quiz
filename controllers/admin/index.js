@@ -12,6 +12,7 @@ module.exports = {
     saveQuiz: function(req, res) {
         let params = req.body;
 
+        // TODO: проверка на администратора
         User.findOne({username: 'admin'})
             .then(user => {
 

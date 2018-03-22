@@ -1,10 +1,13 @@
+$siteTextColor: #495057;
+$rankedWidth: 500px;
+
 #admin-grid {
   display: grid;
   grid-template-areas: "header header"
                         "nav main"
                         "footer footer";
   grid-template-columns: minmax(150px, 2fr) 8fr;
-  grid-template-rows: 150px auto 100px;
+  grid-template-rows: 100px auto 100px;
   min-height: 100vh;
 
   header {
@@ -18,7 +21,6 @@
 
   main {
     grid-area: main;
-    background: lightcyan;
   }
 
   footer {
@@ -27,9 +29,40 @@
   }
 }
 
+* {
+  color: $siteTextColor;
+}
+
+header {
+  display:flex;
+  align-items:center;
+
+  h2 {
+    margin: 20px 20px;
+  }
+}
+
 /*
   Forms
 */
+
+.add-quiz {
+  .menu {
+    margin: 13px 30px;
+  }
+
+  .quiz-container {
+    margin: 20px 30px;
+
+    h3 {
+      margin: 30px 0;
+    }
+
+    > .title {
+      margin: 40px 0 30px;
+    }
+  }
+}
 
 .error-field {
   border-color: #ff0000 !important;

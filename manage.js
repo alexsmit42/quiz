@@ -1,60 +1,13 @@
-var mongoose = require('./utils/mongoose'),
-    async = require('async'),
-    User = require('./models/user'),
-    // log = require('./utils/log')(null, module),
-    config = require('./config');
+global.__base = __dirname + '/';
 
-function openConnection(cb) {
-    mongoose.connection.on('openUri', function () {
-        // log.info('connected to database ' + config.get('db:name'));
-        cb();
-    });
-}
+let mongoose = require(__base + '/utils/mongoose'),
+    {User} = require(__base + '/models/models');
 
-function dropDatabase(cb) {
-    var db = mongoose.connection.db;
-    db.dropDatabase(function () {
-        console.log(('dropped database ' + config.get('db:name')));
-        cb();
-    });
-}
+let data = {
+    _id: new mongoose.Types.ObjectId(),
+    username: 'admin',
+    password: '1234',
+    salt: '123'
+};
 
-function createBaseUser(cb) {
-    var admin = new User({
-        username: 'admin',
-        password: config.get('project:admin:password'),
-        email: config.get('project:admin:email'),
-        role: 1
-    });
-    admin.save(function () {
-        // log.info('created database ' + config.get('db:name'));
-        // log.info('created base admin user');
-        cb();
-    });
-}
-
-function ensureIndexes(cb) {
-    async.each(Object.keys(mongoose.models), function (model, callback) {
-        mongoose.models[model].ensureIndexes(callback);
-    }, function () {
-        // log.info('indexes ensured completely');
-        cb();
-    });
-}
-
-function closeConnection() {
-    mongoose.disconnect();
-    // log.info('disconnected');
-}
-
-async.series(
-    [
-        openConnection,
-        dropDatabase,
-
-        createBaseUser,
-
-        ensureIndexes
-    ],
-    closeConnection
-);
+User.create(data);

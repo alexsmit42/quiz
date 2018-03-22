@@ -7,21 +7,33 @@
         .title
             label Название квиза
             input(type="text", v-model="title", name="title", maxlength="100", v-validate="'required'", :class="{'error-field': errors.has('title')}")
+        .description
+            label Описание
+            input(type="text", v-model="description", name="description", maxlength="200", v-validate="'required'", :class="{'error-field': errors.has('description')}")
 
         errors-list(:errorsList="errorMessages")
 
         .pairs-list.container-fluid
             .list-header
-                div {{ captions[0] }}
-                div {{ captions[1] }}
+                div
+                    input(type="text", v-model="headers[0]['caption']", placeholder="Заголовок", name="description_0", maxlength="200", v-validate="'required'", :class="{'error-field': errors.has('description_0')}")
+                    input(type="text", v-model="headers[0]['note']", placeholder="Прим.")
+                div
+                    input(type="text", v-model="headers[1]['caption']", placeholder="Заголовок", name="description_1", maxlength="200", v-validate="'required'", :class="{'error-field': errors.has('description_1')}")
+                    input(type="text", v-model="headers[1]['note']", placeholder="Прим.")
             .pair-item(v-for="pair in pairs")
                 div
-                    input(typr="text", v-model="pair[0]", maxlength="50")
+                    input(type="text", v-model="pair[0]", maxlength="50")
                 div
-                    input(typr="text", v-model="pair[1]", maxlength="50")
+                    input(type="text", v-model="pair[1]", maxlength="50")
+                div(v-show="!isMinPairs")
+                    a(href="#", @click="removePair(pair)") Удалить
 
         .add-question
             button(@click="addPair") Добавить пару
+
+        .save
+            button(@click="validate") Сохранить тест
 </template>
 
 <script>
@@ -40,12 +52,42 @@
         data() {
             return this.setDefault();
         },
+        created() {
+            if (this.id) {
+                this.setData(this.id);
+            }
+        },
         components: {
             errorsList
+        },
+        computed: {
+            isMinPairs() {
+                return this.pairs.length === MIN_PAIRS;
+            },
+            saveData() {
+                return {
+                    id: this.id,
+                    title: this.title,
+                    type: QUIZ_TYPE,
+                    lang: 'ru',
+                    options: {
+                        description: this.description,
+                        headers: this.headers,
+                        pairs: this.pairs
+                    }
+                };
+            }
         },
         methods: {
             addPair() {
                 this.pairs.push(Object.assign({}, DEFAULT_PAIR));
+            },
+            removePair(pair) {
+                if (this.pairs.length <= MIN_PAIRS) {
+                    return;
+                }
+
+                this.pairs.splice(this.pairs.indexOf(pair), 1);
             },
             setDefault() {
                 let pairs = [];
@@ -57,9 +99,19 @@
                 return {
                     quizID: 0,
                     title: '',
-                    type: 'compare',
+                    description: '',
+                    type: QUIZ_TYPE,
                     lang: 'ru',
-                    captions: ['Город', 'Население'],
+                    headers: [
+                        {
+                            caption: '',
+                            note: ''
+                        },
+                        {
+                            caption: '',
+                            note: ''
+                        }
+                    ],
                     pairs: pairs,
                     errorMessages: []
                 }
